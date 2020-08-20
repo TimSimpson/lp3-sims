@@ -1,0 +1,20 @@
+~dumpfile "../README.md"
+
+Build Info and Options
+----------------------
+
+TODO: include test_package code here
+
+
+Reference
+---------
+
+::lp3::sims
+~~~~~~~~~~~
+
+The following components live in the ``::lp3::sims`` namespace.
+They can be brought in by including ``lp3/sims.hpp``.
+
+~dumpfile "../include/lp3/sims/coroutine.hpp" section = "-" start_after = "// ~end-doc summary"
+
+~dumpfile "../include/lp3/sims/Clock.hpp" section = "-" start_after = "// ~end-doc summary"
