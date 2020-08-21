@@ -1,0 +1,76 @@
+language: cpp
+
+clang-linux: &clang-linux
+  os: linux
+  dist: bionic
+  python: "3.7"
+  compiler: clang
+  addons:
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+        - llvm-toolchain-bionic-8
+      packages:
+        - clang-8
+        - libstdc++-8-dev
+        - python3-pip
+
+emscripten: &emscripten
+  os: linux
+  dist: bionic
+  python: "3.7"
+  compiler: clang
+  addons:
+    apt:
+      packages:
+        - python3-pip
+
+osx: &osx
+   os: osx
+   language: generic
+   osx_image: xcode11.3
+
+install:
+  - git clone https://github.com/TimSimpson/ci-land.git ci
+  - pushd ci && git checkout a4070a0cfcc1d62de120c5de12dc5f852aa26da3 && popd
+  - ./ci/cpp/conan/travis/install.sh
+
+script:
+  - ./ci/cpp/conan/travis/run.sh
+
+matrix:
+  include:
+
+    - name: "Linux Clang 8.0 Release"
+      <<: *clang-linux
+      env:
+        - PROFILE=clang-8-r-static
+    - name: "Linux Clang 8.0 Debug"
+      <<: *clang-linux
+      env:
+        - PROFILE=clang-8-d-static
+    - name: "Emscripten WASM Release"
+      <<: *clang-linux
+      env:
+        - PROFILE=emscripten-w-r
+    - name: "Emscripten Javascript Debug"
+      <<: *clang-linux
+      env:
+        - PROFILE=emscripten-js-d
+
+    - name: "Docs"
+      language: python
+      os: linux
+      dist: bionic
+      python: "3.7"
+      addons:
+        apt:
+          packages:
+            - python3-pip
+            - pandoc
+      script:
+        - ./ci/cpp/conan/travis/docs.sh
+
+env:
+  global:
+    - CONAN_LOGIN_USERNAME=TimSimpson
