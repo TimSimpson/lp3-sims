@@ -1,11 +1,11 @@
 #ifndef FILE_LP3_SIMS_CLOCK_HPP
 #define FILE_LP3_SIMS_CLOCK_HPP
 
+#include "config.hpp"
 #include <cstdint>
 #include <optional>
-#include "config.hpp"
 
-namespace lp3 { namespace sims {
+namespace lp3::sims {
 
 // ---------------------------------------------------------------------------
 // Clocks and Timers
@@ -19,16 +19,16 @@ namespace lp3 { namespace sims {
 // with the same slice of time it's possible to replay it and always get the
 // same results).
 //
-// The ideas behind the GameClock class come from the book `"Game Programming
-// Patterns" <https://www.amazon.com/Game-Programming-Patterns-Robert-Nystrom/dp/0990582906/ref=sr_1_2?ie=UTF8&qid=1525622892&sr=8-2&keywords=game+programming+patterns>`_
-// by Robert Nystorm (the web form is `available here <http://gameprogrammingpatterns.com/game-loop.html>`_).
+// The ideas behind the GameClock class come from the book `"Game
+// Programming Patterns"
+// <https://www.amazon.com/Game-Programming-Patterns-Robert-Nystrom/dp/0990582906/ref=sr_1_2?ie=UTF8&qid=1525622892&sr=8-2&keywords=game+programming+patterns>`_
+// by Robert Nystorm (the web form is `available here
+// <http://gameprogrammingpatterns.com/game-loop.html>`_).
 //
 // ~see-file "../../../demos/TimersDemo.cpp"
 // --------------------------------------------------------------------------/
 
-
 // ~end-doc summary
-
 
 using clock_time_int = std::int64_t;
 
@@ -39,15 +39,13 @@ using clock_time_int = std::int64_t;
 // ----------------------------------------------------------------------------
 LP3_SIMS_API
 class Timer {
-public:
+  public:
     using time_int = std::int64_t;
 
     Timer();
 
     // Returns a value that increments by milliseconds
-    inline time_int cached_time() const {
-        return current_tick_count;
-    }
+    inline time_int cached_time() const { return current_tick_count; }
 
     // Signals the next frame.  Must be called once per frame.
     //
@@ -56,11 +54,10 @@ public:
     // "currentTickCount" because accessing it a bunch causes slow downs.
     time_int get_time();
 
-private:
+  private:
     time_int current_tick_count;
-    time_int init_high_freq_time;   // Time at initialization
+    time_int init_high_freq_time; // Time at initialization
 };
-
 
 // ----------------------------------------------------------------------------
 // class FrameTimer
@@ -69,25 +66,17 @@ private:
 // ----------------------------------------------------------------------------
 LP3_SIMS_API
 class FrameTimer {
-public:
+  public:
     FrameTimer(const std::optional<float> frame_diff_cap = std::nullopt);
 
-    inline float get_average_fps() const {
-        return average_fps;
-    }
+    inline float get_average_fps() const { return average_fps; }
 
-    inline float get_fps() const {
-        return fps;
-    }
+    inline float get_fps() const { return fps; }
 
-    inline float get_speed_mod() const {
-        return speed_mod;
-    }
+    inline float get_speed_mod() const { return speed_mod; }
 
     // Returns a value that increments by milliseconds
-    inline std::int64_t cached_time() const {
-        return timer.cached_time();
-    }
+    inline std::int64_t cached_time() const { return timer.cached_time(); }
 
     // Signals the next frame.  Must be called once per frame.
     //
@@ -96,7 +85,7 @@ public:
     // "currentTickCount" because accessing it a bunch causes slow downs.
     std::int64_t next_frame();
 
-private:
+  private:
     float average_fps;
     int frame_count;
     float fps;
@@ -105,7 +94,7 @@ private:
     // For example, this keeps the "GetSpeedMod()" float from returning
     // enormous values if the game is paused in Windows.
     std::optional<float> max_frame_diff;
-    float speed_mod;                 // % of a second it took for last frame.
+    float speed_mod; // % of a second it took for last frame.
     std::int64_t start_frame_time;
     Timer timer;
 };
@@ -148,29 +137,29 @@ struct GameClockRemainder {
 //         StopWatch w(16);
 //         while(true) {
 //             input.update();
-//             auto r = w.run_updates([&](std::int64_t ms) {  // ms is always 16
+//             auto r = w.run_updates([&](std::int64_t ms) {  // ms is
+//             always 16
 //                 move_characters(ms);
 //                 view.animate(ms);
 //             }
 //             old_state = gfx.animation
-//             gfx.animate(r.ms);  // Update the animation by the tiny extra bit
-//             gfx.update();
-//             gfx.animation = old_state  // restore so we can update the animation
+//             gfx.animate(r.ms);  // Update the animation by the tiny extra
+//             bit gfx.update(); gfx.animation = old_state  // restore so we
+//             can update the animation
 //                                        // again in run_updates.
 //         }
 //
 // ----------------------------------------------------------------------------
 LP3_SIMS_API
 class GameClock {
-public:
+  public:
     // Accepts a number, which is the time in milliseconds that each call to
     // your game's update loop will process.
     GameClock(std::int64_t update_time_in_ms);
 
     // Calls some other routine which will process `update_time_in_ms`
     // until it has caught up to the elapsed time.
-    template<typename F>
-    GameClockRemainder run_updates(F f) {
+    template <typename F> GameClockRemainder run_updates(F f) {
         start_frame();
         while (run_game_logic()) {
             f(update_time_in_ms);
@@ -178,20 +167,21 @@ public:
         return get_frame_remainder();
     }
 
-private:
+  private:
     GameClockRemainder get_frame_remainder() const;
 
-    // Call this repeatedly in a loop until it returns false, each time making
-    // a call to update the game logic in the body of the loop. The call
-    // should act on the time period specified in this class's constructor (so
-    // if you pass in 15, then you should process logical entities in the game
-    // world for 15 ms).
+    // Call this repeatedly in a loop until it returns false, each time
+    // making a call to update the game logic in the body of the loop. The
+    // call should act on the time period specified in this class's
+    // constructor (so if you pass in 15, then you should process logical
+    // entities in the game world for 15 ms).
     bool run_game_logic();
 
-    // Called once per frame in the main loop of your app. Returns the elapsed
-    // time.
+    // Called once per frame in the main loop of your app. Returns the
+    // elapsed time.
     std::int64_t start_frame();
-private:
+
+  private:
     std::int64_t current_time;
     std::int64_t lag;
     std::int64_t max_lag;
@@ -201,7 +191,6 @@ private:
 };
 // ~end-doc
 
-}   }
-
+} // namespace lp3::sims
 
 #endif

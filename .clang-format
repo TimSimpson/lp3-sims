@@ -1,0 +1,10 @@
+BasedOnStyle: LLVM
+BinPackParameters: true
+BreakBeforeBinaryOperators: All
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ContinuationIndentWidth: 8
+DerivePointerAlignment: false
+IndentWidth: 4
+NamespaceIndentation: Inner
+PointerAlignment: Middle
+PointerBindsToType: true

@@ -3,8 +3,8 @@
 // world time that has elapsed while an app runs, the GameClock to run code
 // using simulated time, and a frame timer for showing FPS.
 // ---------------------------------------------------------------------------
-#include <lp3/sims.hpp>
 #include <lp3/main.hpp>
+#include <lp3/sims.hpp>
 
 namespace core = lp3::core;
 namespace sims = lp3::sims;
@@ -20,7 +20,7 @@ int _main(lp3::main::PlatformLoop & loop) {
 
     // Handles running code that updates a game's logic without being
     // susceptible to timing issues from playing on different hardware.
-    const std::int64_t ms_per_update = 1000 / 60;  //16 ms for 60 fps
+    const std::int64_t ms_per_update = 1000 / 60; // 16 ms for 60 fps
     std::int64_t game_time = 0;
     sims::GameClock clock(ms_per_update);
 

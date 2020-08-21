@@ -34,7 +34,6 @@ set_target_properties(sims PROPERTIES OUTPUT_NAME "lp3-sims")
 
 target_compile_definitions(sims PUBLIC "$<$<CONFIG:DEBUG>:LP3_SIMS_DEBUG>")
 
-
 # Mandate the use of at least C++17 by everything that uses this
 target_compile_features(sims PUBLIC cxx_std_17)
 
@@ -63,12 +62,10 @@ if(BUILD_TESTING AND LP3_SIMS_Build_Tests)
     find_package(fmt REQUIRED)
 
     function(make_test name)
-        add_executable(${name}
-                   ${CMAKE_CURRENT_SOURCE_DIR}/tests/${name}.cpp)
+        add_executable(${name} ${CMAKE_CURRENT_SOURCE_DIR}/tests/${name}.cpp)
         target_link_libraries(${name} sims fmt::fmt Catch2::Catch2)
         if("${CMAKE_SYSTEM_NAME}" MATCHES "Emscripten")
-            add_test(NAME "test_${name}"
-                     COMMAND node $<TARGET_FILE:${name}>)
+            add_test(NAME "test_${name}" COMMAND node $<TARGET_FILE:${name}>)
         else()
             add_test(NAME "test_${name}" COMMAND ${name})
         endif()
