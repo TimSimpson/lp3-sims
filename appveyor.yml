@@ -11,7 +11,7 @@ environment:
 install:
   - git clone https://github.com/TimSimpson/ci-land.git ci
   - cd ci
-  - git checkout a4070a0cfcc1d62de120c5de12dc5f852aa26da3
+  - git checkout 609f4f928e53ae07749011f6d4d3305ea8300e9d
   - cd ..
   - ci\cpp\conan\appveyor\install.bat
 
