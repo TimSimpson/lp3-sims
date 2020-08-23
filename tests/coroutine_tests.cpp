@@ -7,10 +7,10 @@
 namespace sims = lp3::sims;
 
 #if defined(__EMSCRIPTEN__)
-    #define _REQUIRE_THROW_AS(code, exc_type) {}
+#define _REQUIRE_THROW_AS(code, exc_type)                                      \
+    {}
 #else
-    #define _REQUIRE_THROW_AS(code, exc_type) \
-        REQUIRE_THROW_AS(code, exc_type)
+#define _REQUIRE_THROW_AS(code, exc_type) REQUIRE_THROW_AS(code, exc_type)
 #endif
 struct Coroutine1 {
     sims::CoroutineState state;
@@ -145,7 +145,6 @@ TEST_CASE("example", "[example]") {
     // The coroutine is now finished. If we call it again, it
     // will raise an exception.
     REQUIRE((bool)turtle.state == false);
-
 
     _REQUIRE_THROW_AS(turtle(1000), sims::CoroutineFinishedException);
     // ~end-doc
