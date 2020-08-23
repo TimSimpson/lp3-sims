@@ -28,7 +28,12 @@ class Lp3SimsAssertError : public std::logic_error {
     {}
 #endif
 
-#define LP3_SIMS_REQUIRE_ASSERT_FAILURE(code)                                  \
-    { REQUIRE_THROWS_AS(code, ::lp3::sims::Lp3SimsAssertError); }
+#if defined(__EMSCRIPTEN__)
+    // On Emscripten exceptions may not be able to be caught correctly
+    #define LP3_SIMS_REQUIRE_ASSERT_FAILURE(code) { }
+#else
+    #define LP3_SIMS_REQUIRE_ASSERT_FAILURE(code)                                  \
+        { REQUIRE_THROWS_AS(code, ::lp3::sims::Lp3SimsAssertError); }
+#endif
 
 #endif
