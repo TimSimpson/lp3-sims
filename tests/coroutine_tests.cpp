@@ -7,11 +7,12 @@
 namespace sims = lp3::sims;
 
 #if defined(__EMSCRIPTEN__)
-#define _REQUIRE_THROW_AS(code, exc_type)                                      \
-    {}
-#else
-#define _REQUIRE_THROW_AS(code, exc_type) REQUIRE_THROW_AS(code, exc_type)
+    // Emscripten is weird and can't handle exceptions, so just skip these
+    // checks on that platform.
+    #undef REQUIRE_THROWS_AS
+    #define REQUIRE_THROWS_AS(...) {}
 #endif
+
 struct Coroutine1 {
     sims::CoroutineState state;
     int result;
@@ -34,13 +35,13 @@ TEST_CASE("Should catch fall off", "[should_catch_falloff]") {
     REQUIRE(50 == co.result);
     co();
     REQUIRE(100 == co.result);
-    _REQUIRE_THROW_AS(co(), sims::CoroutineFinishedException);
+    REQUIRE_THROWS_AS(co() , sims::CoroutineFinishedException);
 }
 
 TEST_CASE("Should catch invalid state", "[should_catch_invalid_state]") {
     Coroutine1 co;
     co.state.code_pointer = -434;
-    _REQUIRE_THROW_AS(co(), sims::CoroutineInvalidStateException);
+    REQUIRE_THROWS_AS(co(), sims::CoroutineInvalidStateException);
 }
 
 TEST_CASE("Running handcranked loop", "[running_handcranked_loop]") {
@@ -146,7 +147,7 @@ TEST_CASE("example", "[example]") {
     // will raise an exception.
     REQUIRE((bool)turtle.state == false);
 
-    _REQUIRE_THROW_AS(turtle(1000), sims::CoroutineFinishedException);
+    REQUIRE_THROWS_AS(turtle(1000), sims::CoroutineFinishedException);
     // ~end-doc
 }
 
