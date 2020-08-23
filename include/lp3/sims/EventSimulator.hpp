@@ -1,7 +1,7 @@
 // a super slow event system which handles dispatching to arbitrary functions
 // using integral codes as well as causing code to fire at a specific time
 
-#ifndef FILE_LP3_SIMS_EVENTSIMULATOR_HPP
+#ifdef FILE_LP3_SIMS_EVENTSIMULATOR_HPP
 #define FILE_LP3_SIMS_EVENTSIMULATOR_HPP
 
 #include "config.hpp"
