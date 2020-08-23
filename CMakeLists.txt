@@ -23,12 +23,12 @@ add_library(
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sims/Clock.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sims/config.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sims/coroutine.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sims/dispatcher.hpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sims/EventSimulator.hpp
+    # ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sims/dispatcher.hpp
+    # ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sims/EventSimulator.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/include/lp3/sims/qroutines.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Clock.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/dispatcher.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/EventSimulator.cpp
+    # ${CMAKE_CURRENT_SOURCE_DIR}/src/dispatcher.cpp
+    # ${CMAKE_CURRENT_SOURCE_DIR}/src/EventSimulator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/qroutines.cpp)
 set_target_properties(sims PROPERTIES OUTPUT_NAME "lp3-sims")
 
@@ -75,8 +75,8 @@ if(BUILD_TESTING AND LP3_SIMS_Build_Tests)
     endfunction()
 
     make_test(coroutine_tests)
-    make_test(dispatcher_tests)
-    make_test(EventSimulatorTests)
+    # make_test(dispatcher_tests)
+    # make_test(EventSimulatorTests)
     make_test(qroutines_tests)
 endif()
 

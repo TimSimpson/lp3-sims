@@ -1,4 +1,6 @@
-#ifndef FILE_LP3_SIMS_DISPATCHER_HPP
+// This dispatcher business is commented out for now. I haven't ever found a
+// use for it and the tests fail in Travis, so for now it's commented out cruft.
+#ifdef FILE_LP3_SIMS_DISPATCHER_HPP
 #define FILE_LP3_SIMS_DISPATCHER_HPP
 
 #include "config.hpp"

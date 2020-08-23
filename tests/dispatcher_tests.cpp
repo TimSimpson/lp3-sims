@@ -14,7 +14,6 @@ TEST_CASE("Test Dispatching", "[dispatcher_tests]") {
         std::string character_id;
     };
     auto on_attack = [](const AttackInfo & info) {
-        (void)info;
         fmt::print("Character {} was attacked for {} damage.",
                    info.character_id, info.hp);
     };
@@ -22,8 +21,7 @@ TEST_CASE("Test Dispatching", "[dispatcher_tests]") {
     dispatcher.send(ATTACKED, AttackInfo{35, "Alaghasta the Ninny"});
 
     dispatcher.subscribe<AttackInfo>(ATTACKED, [](const AttackInfo & info) {
-        (void)info;
-        fmt::print("I also saw that %s was just attacked for %d damage!",
+        fmt::print("I also saw that {} was just attacked for {} damage!",
                    info.character_id, info.hp);
     });
     dispatcher.send<AttackInfo>(ATTACKED, {35, "Burtman the Offender"});
@@ -36,7 +34,6 @@ TEST_CASE("Test Dispatching", "[dispatcher_tests]") {
 
     LP3_SIMS_REQUIRE_ASSERT_FAILURE(
             dispatcher.subscribe<int>(ATTACKED, [](const int & info) {
-                (void)info;
                 fmt::print("I am a bug. %d", info);
             }));
 }
