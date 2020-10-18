@@ -89,14 +89,14 @@ TEST_CASE("example", "[example]") {
     // called once per frame in some kind of game loop).
     // ----------------------------------------------------------------
     struct Turtle {
-        int x;
+        std::int64_t x;
         sims::CoroutineState state;
 
         Turtle() : x(0), state() {}
 
         void operator()(const std::int64_t elapsed_ms) {
             // we want to move at 100 of whatever units x is in a second
-            const std::int64_t speed = 100 * (elapsed_ms / 1000.0);
+            const std::int64_t speed = static_cast<int64_t>(100 * (elapsed_ms / 1000.0));
 
             LP3_COROUTINE_BEGIN(state);
             while (true) {
